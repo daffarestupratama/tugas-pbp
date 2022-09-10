@@ -22,5 +22,6 @@ Kelas PBP B
 
 ## Tautan Aplikasi yang Telah Dideploy
 
-[Halaman Utama](https://www.daffailham.herokuapp.com)
-[Halaman Katalog](https://www.daffailham.herokuapp.com/katalog)
+[Halaman Utama](https://daffailham.herokuapp.com)
+
+[Halaman Katalog](https://daffailham.herokuapp.com/katalog/)
