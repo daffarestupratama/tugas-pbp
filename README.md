@@ -10,6 +10,8 @@ Kelas PBP B
 Repositori ini digunakan sebagai pengerjaan tugas mata kuliah Pemrograman Berbasis Platform. Tugas yang diberikan yaitu berupa proyek aplikasi yang dikerjakan dengan platform framework django. Di bawah ini merupakan jawaban-jawaban untuk menjawab pertanyaan-pertanyaan yang diberikan pada Tugas 2.
 
 ## 1. Bagan _Client Request_ dan _Responses_
+
+![MTV Flowchart](https://raw.githubusercontent.com/daffarestupratama/tugas-pbp-django/main/Flowchart%20MTV%20Django.png "Title")
 ...
 
 ## 2. _Virtual Environment_
