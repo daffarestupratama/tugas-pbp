@@ -9,14 +9,19 @@ Kelas PBP B
 
 Repositori ini digunakan sebagai pengerjaan tugas mata kuliah Pemrograman Berbasis Platform. Tugas yang diberikan yaitu berupa proyek aplikasi yang dikerjakan dengan platform framework django. Di bawah ini merupakan jawaban-jawaban untuk menjawab pertanyaan-pertanyaan yang diberikan pada Tugas 2.
 
-## 1. Bagan _Client Request_ dan _Responses_
+## 1. Bagan _Client Requests_ dan _Responses_
 
-![MTV Flowchart](https://raw.githubusercontent.com/daffarestupratama/tugas-pbp-django/main/Flowchart%20MTV%20Django.png "Title")
-...
+![MTV Flowchart](https://raw.githubusercontent.com/daffarestupratama/tugas-pbp-django/main/Flowchart%20MTV%20Django.png "Bagan Requests dan Responses")
+
+Bagan diatas menampilkan bagaimana proyek django bekerja dengan arsitektur MTV. M adalah Model, sebuah layer yang melakukan akses data. T adalah Template, yaitu layer yang menjadi acuan templat yang akan ditampilkan di layar browser pengguna. V adalah View, yaitu layer yang menjadi pusat penghubung antara model dan template.
+
+Agar aplikasi django dapat dijalankan dan ditampilkan di layar pengguna, pertama-tama pengguna melakukan user request. User request ini didasarkan pada url yang dimasukkan pengguna ke bilah url/search di browsernya. URL tersebut akan di-breakdown pada setiap tanda garis miring (slash). Contohnya pada proyek ini URL-nya adalah https://daffailham.herokuapp.com/katalog/, maka akan dipecah menjadi "daffailham.herokuapp.com" yang menjadi domainnya, lalu string "katalog", dan string kosong (""). Dengan demikian, mulanya link akan di-handle oleh urls.py yang ada di folder proyek. Setelah itu karena di belakang domain terdapat string "katalog" maka akan dialihkan ke urls.py yang ada di folder katalog. Setelah itu karena di belakangnya lagi merupakan string kosong, maka path yang diambil yaitu memanggil fungsi show_katalog() di dalam file views.py di folder katalog. 
+
+Di dalam view, data akan diambil dari model yang telah dibuat. Model dapat dianalogikan sebagai sebuah cetakan dari data-data yang ada. Cetakan ini diisi oleh data-data dari database file json. Sehingga, data-data dapat masuk dan diproses di view.  Setelah didapatkan data-datanya, data tersebut dimasukkan ke dalam template yang telah tersedia yang berupa file html sehingga akan tercipta file html yang telah lengkap terisi data. File tersebut akan dikembalikan ke view untuk ditampilkan di layar browser pengguna. Tampilan itulah yang akhirnya menjadi http response.
 
 ## 2. _Virtual Environment_
 
-Dalam pengembangan aplikasi menggunakan platform django dibutuhkan berbagai _packages_ dan _dependencies_ sesuai dengan kebutuhan pengembangan aplikasi yang diinginkan. Fungsinya adalah untuk menyediakan fitur-fitur yang dapat langsung digunakan oleh sang pengembang aplikasi. _Packages_ dan _dependencies_ tersebut juga memiliki versinya masing-masing. Oleh karena pentingnya kehadiran _packages_ dan _dependencies_, hal tersebut harus diinstal ketika proses pengembangan, debugging, dan deployment. Namun nantinya akan terdapat masalah ketika jumlah pengembang dan perangkat yang digunakan lebih dari satu. Bisa jadi packages yang terinstal di satu perangkat berbeda versi dengan yang ada di perangkat dari pengembang lain. Untuk itu digunakanlah sistem bernama virtual environment.
+Dalam pengembangan aplikasi menggunakan platform django dibutuhkan berbagai packages dan dependencies sesuai dengan kebutuhan pengembangan aplikasi yang diinginkan. Fungsinya adalah untuk menyediakan fitur-fitur yang dapat langsung digunakan oleh sang pengembang aplikasi. Packages dan dependencies tersebut juga memiliki versinya masing-masing. Oleh karena pentingnya kehadiran packages dan dependencies, hal tersebut harus diinstal ketika proses pengembangan, debugging, dan deployment. Namun nantinya akan terdapat masalah ketika jumlah pengembang dan perangkat yang digunakan lebih dari satu. Bisa jadi packages yang terinstal di satu perangkat berbeda versi dengan yang ada di perangkat dari pengembang lain. Untuk itu digunakanlah sistem bernama virtual environment.
 
 Virtual environment merupakan suatu tools yang tersedia pada django yang berfungsi untuk menciptakan suatu environment terisolasi agar tertutup dan tidak dapat diakses dari luar atau hanya dapat diakses dari dalam project tersebut saja. Seluruh package dan dependency yang dibutuhkan untuk suatu proyek django tidak diinstal secara global di perangkat pengembang, tetapi diinstal secara lokal di dalam direktori proyek masing-masing. Dengan demikian setiap proyek dapat dijalankan menggunakan packages-nya masing-masing sesuai dengan versi yang dibutuhkannya. Dan apabila terdapat banyak proyek di dalam suatu perangkat, proyek-proyek tersebut tidak saling mempengaruhi satu sama lain. 
 
