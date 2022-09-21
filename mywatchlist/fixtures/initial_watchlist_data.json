@@ -1,0 +1,112 @@
+[
+    {
+        "model":"mywatchlist.WatchlistItem",
+        "pk":1,
+        "fields":{
+            "watched":"False",
+            "title":"Midsommar",
+            "rating": "3",
+            "release_date": "2017-09-07",
+            "review": "A weird horror-thriller-gore movie"
+        }
+    },
+    {
+        "model":"mywatchlist.WatchlistItem",
+        "pk":2,
+        "fields":{
+            "watched":"True",
+            "title":"Money Heist",
+            "rating": "4",
+            "release_date": "2017-05-02",
+            "review": "Just typical heist-theme series"
+        }
+    },
+    {
+        "model":"mywatchlist.WatchlistItem",
+        "pk":3,
+        "fields":{
+            "watched":"True",
+            "title":"The Man in The High Castle",
+            "rating": "4",
+            "release_date": "2015-01-15",
+            "review": "A unique scifi series with dystopian settings"
+        }
+    },
+    {
+        "model":"mywatchlist.WatchlistItem",
+        "pk":4,
+        "fields":{
+            "watched":"True",
+            "title":"Stranger Things",
+            "rating": "4",
+            "release_date": "2016-06-15",
+            "review": "A scifi series full of drama and mystery"
+        }
+    },
+    {
+        "model":"mywatchlist.WatchlistItem",
+        "pk":5,
+        "fields":{
+            "watched":"True",
+            "title":"The Maze Runner",
+            "rating": "5",
+            "release_date": "2014-09-17",
+            "review": "A thrilling scifi movie about finding a way out of maze"
+        }
+    },
+    {
+        "model":"mywatchlist.WatchlistItem",
+        "pk":6,
+        "fields":{
+            "watched":"True",
+            "title":"Start Up",
+            "rating": "3",
+            "release_date": "2020-10-17",
+            "review": "A not-bad romance K-drama with a plot around startup life"
+        }
+    },
+    {
+        "model":"mywatchlist.WatchlistItem",
+        "pk":7,
+        "fields":{
+            "watched":"True",
+            "title":"Laskar Pelangi",
+            "rating": "5",
+            "release_date": "2008-09-25",
+            "review": "A good biographical movie about friendship, dreams, and hard work"
+        }
+    },
+    {
+        "model":"mywatchlist.WatchlistItem",
+        "pk":8,
+        "fields":{
+            "watched":"True",
+            "title":"Alice in Borderland",
+            "rating": "4",
+            "release_date": "2020-12-10",
+            "review": "A series which the storyline tells about people trapped in a crazy games"
+        }
+    },
+    {
+        "model":"mywatchlist.WatchlistItem",
+        "pk":9,
+        "fields":{
+            "watched":"False",
+            "title":"Pengabdi Setan 2",
+            "rating": "3",
+            "release_date": "2022-08-04",
+            "review": "Typical Indonesian horror movie"
+        }
+    },
+    {
+        "model":"mywatchlist.WatchlistItem",
+        "pk":10,
+        "fields":{
+            "watched":"False",
+            "title":"Inception",
+            "rating": "4",
+            "release_date": "2010-07-16",
+            "review": "A film that makes you dizzy with the storyline"
+        }
+    }
+]

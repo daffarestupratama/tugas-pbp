@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+ {% block content %}
+
+  <h1>Tugas 3 PBP/PBD</h1>
+
+  <h5>Name: </h5>
+  <p>{{nama}}</p>
+
+  <h5>Student ID: </h5>
+  <p>{{id}}</p>
+
+  <table>
+    <tr>
+      <th>Watched</th>
+      <th>Title</th>
+      <th>Rating</th>
+      <th>Release Date</th>
+      <th>Review</th>
+    </tr>
+    {% comment %} Add the data below this line {% endcomment %}
+    {% comment %} Tambahkan data di bawah baris ini {% endcomment %}
+    {% for item in watchlist %}
+        <tr>
+            <th>{{item.watched}}</th>
+            <th>{{item.title}}</th>
+            <th>{{item.rating}}</th>
+            <th>{{item.release_date}}</th>
+            <th>{{item.review}}</th>
+        </tr>
+    {% endfor %}
+  </table>
+
+ {% endblock content %}
