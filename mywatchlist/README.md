@@ -15,6 +15,13 @@ Kelas PBP B
 
 HTML | JSON | XML
 --- | --- | ---
+Bahasa markup | Notasi objek JavaScript | Bahasa Markup
+Berfungsi untuk menampilkan webpage | Berfungsi untuk transfer data | Berfungsi untuk transfer data
+Menggunakan tag | Menggunakan format array | Menggunakan tag dan lebih terstruktur berbentuk tree
+Banyak integrasi framework | kurang aman | lebih aman
+Support comments | Tidak support comments | Support comments
+Menampilkan data array sesuai dengan framework atau template yang telah dibuat | Support array | Tidak support array
+Support banyak text encoding | Hanya support UTF-8 | Support lebih bayak text encoding
 
 ## Pentingnya _Data Delivery_ Pada Implementasi Platfowm
 
