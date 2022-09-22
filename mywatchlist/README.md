@@ -2,7 +2,7 @@
 
 Daffa Ilham Restupratama <br />
 NPM 2106751013 <br />
-Kelas PBP B
+Kelas PBP B <br />
 
 ## Link Deploy
 
@@ -10,6 +10,7 @@ Kelas PBP B
 - [Link HTML](https://daffailham.herokuapp.com/mywatchlist/html)
 - [Link JSON](https://daffailham.herokuapp.com/mywatchlist/json)
 - [Link XML](https://daffailham.herokuapp.com/mywatchlist/xml)
+<br />
 
 ## Perbedaan HTML, JSON, dan XML
 
@@ -22,10 +23,12 @@ Banyak integrasi framework | kurang aman | lebih aman
 Support comments | Tidak support comments | Support comments
 Menampilkan data array sesuai dengan framework atau template yang telah dibuat | Support array | Tidak support array
 Support banyak text encoding | Hanya support UTF-8 | Support lebih bayak text encoding
+<br />
 
 ## Pentingnya _Data Delivery_ Pada Implementasi Platfowm
 
 Aplikasi berbasis platform pastinya memiliki data yang dinamis. Dengan kata lain, data tersebut pasti sering berubah-ubah dan tidak statis saja. Data tersebut secara kontinyu akan diakses oleh aplikasi untuk ditampilkan kepada klien. Untuk itu, data delivery penting untuk diimplementasikan agar proses pengaksesan data dapat berjalan secara lancar.
+<br />
 
 ## Implementasi Tugas
 
@@ -114,6 +117,15 @@ Aplikasi berbasis platform pastinya memiliki data yang dinamis. Dengan kata lain
     ```
     
 9) Melakukan deployment dengan melakukan push kode ke repository github. Halaman aplikasi dapat diakses melalui link yang telah diset di heroku dan secret repository.
+<br />
 
 ## Screenshot Postman
 
+1) HTML
+![Postman HTML](https://github.com/daffarestupratama/tugas-pbp-django/blob/main/mywatchlist/screenshot_postman_html.png?raw=true "Postman HTML")
+
+2) JSON
+![Postman JSON](https://github.com/daffarestupratama/tugas-pbp-django/blob/main/mywatchlist/screenshot_postman_json.png?raw=true "Postman JSON")
+
+3) XML
+![Postman XML](https://github.com/daffarestupratama/tugas-pbp-django/blob/main/mywatchlist/screenshot_postman_xml.png?raw=true "Postman XML")
