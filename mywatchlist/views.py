@@ -5,10 +5,19 @@ from django.core import serializers
 
 def show_mywatchlist(request):
     data_watchlist = WatchlistItem.objects.all()
+    total = len(data_watchlist)
+    ditonton = 0
+    banyak = False
+    for item in data_watchlist:
+        if (item.watched):
+            ditonton = ditonton + 1
+    if (ditonton > (total-ditonton)):
+        banyak = True
     context = {
         'watchlist': data_watchlist,
         'nama': 'Daffa Ilham Restupratama',
-        'id': '2106751013'
+        'id': '2106751013',
+        'banyak': banyak
     }
     return render(request, "mywatchlist.html", context)
 

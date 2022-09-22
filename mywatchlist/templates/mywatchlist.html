@@ -25,4 +25,10 @@
     XML File
   </button>
 
+  {% if banyak %}
+    <p>Selamat, kamu sudah banyak menonton!</p>
+  {% else %} //if that url isn't a video
+    <p>Wah, kamu masih sedikit menonton!</p>
+  {% endif %}
+
  {% endblock content %}
