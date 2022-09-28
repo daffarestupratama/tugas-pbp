@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<html>
+
+    <head>
+        <title>Todo List - PBP Tugas 4</title>
+    </head>
+
+    <body>
+        <h1>Todo List - PBP Tugas 4</h1>
+
+        <br>
+        <b>Username: </b>
+        <p>{{username}}</p>
+        <br>
+
+        <table border="2">
+            <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Date</th>
+            </tr>
+            {% for task in tasks %}
+                <tr>
+                    <td>{{task.title}}</td>
+                    <td>{{task.description}}</td>
+                    <td>{{task.date}}</td>
+                </tr>
+            {% endfor %}
+        </table>
+
+        <br>
+        <button><a href="{% url 'todolist:create_task' %}">Create Task</a></button>
+
+        <h5>Sesi terakhir login: {{ last_login }}</h5>
+
+        <button><a href="{% url 'todolist:logout' %}">Logout</a></button>
+        
+    </body>
+</html>
+{% endblock content %}
