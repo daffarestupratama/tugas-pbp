@@ -41,7 +41,6 @@ def create_task(request):
             )
             # Menyimpan instansiasi task ke database
             task.save()
-            messages.success(request, 'Task telah berhasil dibuat!')
             # Kembali ke halaman awal todolist
             return redirect('todolist:show_todolist')
 
