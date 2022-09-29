@@ -35,7 +35,21 @@ Untuk mengimplementasikannya, potongan kode tersebut ditaruh pada file HTML sesu
 
 ## Alur Data Submisi Form oleh Pengguna
 
-1) .
+1) Pertama-tama pengguna memasukkan data berupa teks pada kolom form yang telah disediakan pada halaman *create task* dan disubmit dengan menekan tombol submit yang mentrigger method POST.
+   
+2) Di dalam fungsi create_task apabila tombol ditekan (method request POST) maka akan dibuat variabel form berupa instansiasi kelas TaskForm dengan mengisikan parameter dari request POST.
+   
+3) Data form akan divalidasi terlebih dahulu. Apabila valid maka akan dibuat objek baru hasil instansiasi model Task dan menyusun data parameternya dengan user yang login saat ini, tanggal saat ini, judul dari form, dan deskripsi dari form.
+
+4) Objek task disimpan ke dalam database.
+   
+5) Setelah itu, pengguna akan diarahkan kembali ke halaman utama todolist.
+   
+6) Halaman utaman menampilkan tabel berisi judul task, deskripsi, dan tanggal yang telah diisikan oleh pengguna sebelumnya. Data tersebut diakses dengan mengkuerikan seluruh objek instansiasi model Task dan memfilternya sesuai dengan user yang login saat ini dan data tersebut di-pass dengan menggunakan context.
+   
+7) Seluruh task pada kueri ditampilkan pada halaman utama dengan melakukan iterasi seluruh objek di dalam kueri. Iterasi dilakukan di dalam file HTML halaman utama todolist.
+   
+8) User dapat melihat hasil akhir seluruh task yang telah dibuatnya.
 
 <br>
 
