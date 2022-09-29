@@ -41,6 +41,8 @@ Untuk mengimplementasikannya, potongan kode tersebut ditaruh pada file HTML sesu
 
 ## Implementasi Tugas
 
+### **Awalan**
+
 1) Pastikan sudah menyalakan virtual environment sebelum memulai proyek dengan menuliskan command berikut di terminal
     ```sh
     env\Scripts\activate.bat
@@ -61,70 +63,259 @@ Untuk mengimplementasikannya, potongan kode tersebut ditaruh pada file HTML sesu
 4) Membuat model Task dengan membuat kelas baru di dalam file ```models.py``` di folder todolist yang merupakan subkelas dari ```models.Model``` dan isikan seluruh atribut sesuai dengan yang diinginkan soal
     ```sh
     from django.db import models
-    from django.core.validators import MaxValueValidator, MinValueValidator 
+
+   class Task(models.Model):
+       date = models.DateField()
+       title = models.CharField(max_length=200)
+       description = models.TextField()
+       # on_delete CASCADE agar ketika user terhapus maka task ikut terhapus
+       user = models.ForeignKey('auth.User', on_delete=models.CASCADE)
+    ```
     
-    class WatchlistItem(models.Model):
-        watched = models.BooleanField()
-        title = models.CharField(max_length=50)
-        rating = models.PositiveSmallIntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
-        release_date = models.DateField()
-        review = models.TextField()
+5) Migrasikan model agar dapat terbaca aplikasi dengan command 
+   ```sh
+   python manage.py migrate
+   ```
+
+<br>
+
+### **REGISTRASI**
+
+6) Mengimplementasikan halaman registrasi akun dengan memasukkan fungsi yang akan meng-*handle* registrasi di dalam file views.py
+    ```sh
+    def register(request):
+        # Membuat form registrasi user
+        form = UserCreationForm()
+        # Jika request method POST (tombol input daftar akun ditekan)
+        if request.method == "POST":
+            # Menyusun form berdasarkan input pengguna
+            form = UserCreationForm(request.POST)
+            # Mengecek validitas form
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Akun telah berhasil dibuat!')
+                return redirect('todolist:login')
+
+        context = {'form':form}
+        return render(request, 'register.html', context)
+   ```
+   dan membuat 
+    
+7) Membuat file HTML (misalkan register.html) yang akan menampilkan halaman web registrasi akun di dalam folder template dan memasukkan tag form yang akan ditampilkan. Bisa juga ditambahkan messages apabila terdapat message akun telah berhasil dibuat.
+
+    ```sh
+    <h1>Formulir Registrasi</h1>  
+
+        <form method="POST" >  
+            {% csrf_token %}  
+            <table>  
+                {{ form.as_table }}  
+                <tr>  
+                    <td></td>
+                    <td><input type="submit" name="submit" value="Daftar"/></td>  
+                </tr>  
+            </table>  
+        </form>
+
+    {% if messages %}  
+        <ul>   
+            {% for message in messages %}  
+                <li>{{ message }}</li>  
+                {% endfor %}  
+        </ul>   
+    {% endif %}
     ```
 
-5) Menambahkan minimal 10 data untuk objek sesuai dengan model Mywatchlist yang telah dibuat tadi dengan membuat file baru berformat JSON di dalam folder fixtures di dalam folder mywatchlist. File JSON dibuat dengan syntax seperti berikut ini.
+<br>
+
+### **Login**
+
+8) Membuat fungsi di dalam file views.py yang akan meng-*handle* halaman login dan mengautentikasi user ketika pengguna mencoba login
     ```sh
-    [
-    {
-        "model":"mywatchlist.WatchlistItem",
-        "pk":<nomor kode id>,
-        "fields":{
-            "watched":"<True/False>",
-            "title":"<judul>",
-            "rating": "<nilai 1-5>",
-            "release_date": "<YYYY-MM-DD>",
-            "review": "<deskripsi ulasan>"
+    def login_user(request):
+       # Jika request method POST (tombol input login ditekan)
+       if request.method == 'POST':
+           # Mengautentikasi user dengan username dan password
+           username = request.POST.get('username')
+           password = request.POST.get('password')
+           user = authenticate(request, username=username, password=password)
+           # Jika user ditemukan (username dan password salah)
+           if user is not None:
+               # Melakukan login
+               login(request, user)
+               # Membuat response redirect halaman utama
+               response = HttpResponseRedirect(reverse("todolist:show_todolist"))
+               # Membuat cookies berisi data last login
+               response.set_cookie('last_login', str(datetime.datetime.now()))
+               # Mengembalikan response
+               return response
+           # Jika user tidak ditemukan
+           else:
+               messages.info(request, 'Username atau Password salah!')
+       # Mencetak halaman login
+       context = {}
+       return render(request, 'login.html', context)
+    ```
+
+9) Membuat file html (misalkan login.html) untuk menampilkan halaman login kepada pengguna dengan memasukkan form username dan password agar dapat diambil datanya untuk autentikasi user. Sebuah tombol redirect juga dibuat agar pengguna bisa pergi ke halaman registrasi akun.
+
+    ```sh
+        <h1>Login</h1>
+
+    <form method="POST" action="">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <td>Username: </td>
+                <td><input type="text" name="username" placeholder="Username" class="form-control"></td>
+            </tr>
+                    
+            <tr>
+                <td>Password: </td>
+                <td><input type="password" name="password" placeholder="Password" class="form-control"></td>
+            </tr>
+
+            <tr>
+                <td></td>
+                <td><input class="btn login_btn" type="submit" value="Login"></td>
+            </tr>
+        </table>
+    </form>
+
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}     
+        
+    Belum mempunyai akun? <a href="{% url 'todolist:register' %}">Buat Akun</a>
+    ```
+
+<br>
+
+### **Halaman Utama Todolist**
+
+10) Membuat fungsi di dalam views.py yang akan meng-*handle* tampilan halaman utama yang nantinya berfungsi untuk menampilkan seluruh task yang dibuat oleh user dan tombol untuk menambahkan task.
+    ```sh
+    def show_todolist(request):
+        username = request.user.get_username()
+        # Mengambil seluruh task sesuai user ter-login saat ini
+        tasks = Task.objects.filter(user=request.user)
+        context = {
+            'username': username,
+            'tasks': tasks,
+            'last_login': request.COOKIES['last_login'],
         }
-    },
-    ...
-    ]
+        return render(request, "todolist.html", context)
     ```
-    
-6) Migrasikan data agar dapat terbaca aplikasi dengan command ```python manage.py makemigrations``` dan ```python manage.py migrate```
 
-7) Membuat routing untuk masing-masing URL yang bersesuaian untuk mengambil file HTML, JSON, dan XML dengan membuat fungsi yang menerima argumen berupa request dan mengembalikan HttpResponse di dalam file views.py
+11) Membuat file html (misalkan todolist.html) di dalam folder template yang ditampilkan sebagai halaman utama todolist kepada pengguna. Implementasikan juga tampilan nama username dan iterasikan semua task yang ada di dalam kueri tasks sesuai dengan context yang di-*pass* oleh fungsi. Dua tombol juga dibuat untuk membuat task dan logout.
     ```sh
-    def show_html(request):
-    data_watchlist = WatchlistItem.objects.all()
-    context = {
-        'watchlist': data_watchlist,
-        'nama': 'Daffa Ilham Restupratama',
-        'id': '2106751013'
-    }
-    return render(request, "watchlist_data.html", context)
+    <h1>Todo List - PBP Tugas 4</h1>
 
-    def show_xml(request):
-        data = WatchlistItem.objects.all()
-        return HttpResponse(serializers.serialize("xml", data), content_type="application/xml")
-    
-    def show_json(request):
-        data = WatchlistItem.objects.all()
-        return HttpResponse(serializers.serialize("json", data), content_type="application/json")
-    
-    ...
+    <br>
+    <b>Username: </b>
+    <p>{{username}}</p>
+    <br>
+
+    <table border="2">
+        <tr>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Date</th>
+        </tr>
+        {% for task in tasks %}
+            <tr>
+                <td>{{task.title}}</td>
+                <td>{{task.description}}</td>
+                <td>{{task.date}}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <br>
+    <button><a href="{% url 'todolist:create_task' %}">Create Task</a></button>
+
+    <h5>Sesi terakhir login: {{ last_login }}</h5>
+
+    <button><a href="{% url 'todolist:logout' %}">Logout</a></button>
     ```
-    
-8) Menambahkan path ke dalam urlpatterns di dalam file urls.py di folder mywatchlist dengan url dan nama fungsi yang bersesuaian
+
+<br>
+
+### **Halaman Create Task**
+
+12) Membuat fungsi di dalam views.py yang akan meng-*handle* tampilan halaman pembuatan task yang berfungsi untuk menampilkan form inputan oleh pengguna dan tombol untuk mensubmit.
+
     ```sh
+    def create_task(request):
+        # Jika method request adalah POST
+        if request.method == 'POST':
+            # Mengambil data form dari request
+            form = TaskForm(request.POST)
+            # Mengecek validitas form
+            if form.is_valid():
+                # Menyusun data dari form ke model Task
+                task = Task(
+                    user = request.user,
+                    date = datetime.datetime.now(),
+                    title = form.cleaned_data['title'],
+                    description = form.cleaned_data['description'],
+                )
+                # Menyimpan instansiasi task ke database
+                task.save()
+                # Kembali ke halaman awal todolist
+                return redirect('todolist:show_todolist')
+
+        # Jika method request adalah GET atau lainnya
+        else:
+            form = TaskForm()
+        # Menampilkan halaman create task
+        context = {'form':form}
+        return render(request, "create_task.html", context)
+    ```
+
+13) Membuat file html (misalkan create_task.html) di dalam folder template yang ditampilkan sebagai halaman pembuatan tugas kepada pengguna.
+    ```sh
+    <h1>Create Task</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        <table>  
+            {{ form.as_table }}  
+            <tr>  
+                <td></td>
+                <td><input type="submit" value="Create Task"/></td>  
+            </tr>  
+        </table>  
+    </form>
+    ```
+
+<br>
+
+### **Akhiran**
+
+14) Membatasi akses halaman agar hanya dapat diakses oleh pengguna terautentikasi yang telah login. Apabila ternyata belum login, maka pengguna akan dialihkan ke halaman login. Fitur ini dapat diimplementasikan dengan menaruh dekorator berikut ini pada fungsi-fungsi yang dibatasi aksesnya :
+    ```sh
+    @login_required(login_url='/todolist/login/')
+    ```
+
+
+15) Menambahkan path ke dalam urlpatterns di dalam file urls.py di folder todolist dengan url dan nama fungsi yang bersesuaian
+    ```sh
+    app_name = 'todolist'
+
     urlpatterns = [
-        path('', show_mywatchlist, name='show_mywatchlist'),
-        path('html/', show_html, name="show_html"),
-        path('xml/', show_xml, name="show_xml"),
-        path('json/', show_json, name="show_json"),
-        path('xml/<int:id>', show_xml_by_id, name="show_xml_by_id"),
-        path('json/<int:id>', show_json_by_id, name="show_json_by_id"),
+        path('', show_todolist, name='show_todolist'),
+        path('register/', register, name='register'),
+        path('login/', login_user, name='login'),
+        path('logout/', logout_user, name='logout'),
+        path('create-task/', create_task, name='create_task'),
     ]
     ```
     
-9) Melakukan deployment dengan melakukan push kode ke repository github. Halaman aplikasi dapat diakses melalui link yang telah diset di heroku dan secret repository.
+16)  Melakukan deployment dengan melakukan push kode ke repository github. Halaman aplikasi dapat diakses melalui link yang telah diset di heroku dan secret repository.
 
 <br>
