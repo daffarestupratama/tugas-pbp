@@ -333,3 +333,28 @@ Untuk mengimplementasikannya, potongan kode tersebut ditaruh pada file HTML sesu
 16)  Melakukan deployment dengan melakukan push kode ke repository github. Halaman aplikasi dapat diakses melalui link yang telah diset di heroku dan secret repository.
 
 <br>
+
+
+# Tugas 5 PBP
+
+Lanjutan dari Tugas 4 dengan menambahkan styling pada web app yang telah dibuat sebelumnya
+<br>
+
+## Perbedaan Inline, Internal, dan External CSS
+
+...
+<br>
+
+## Tag-Tag HTML5
+
+...
+<br>
+
+## Tipe-Tipe CSS Selector
+
+...
+<br>
+
+## Implementasi Tugas
+
+...
