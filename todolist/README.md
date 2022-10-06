@@ -333,6 +333,7 @@ Untuk mengimplementasikannya, potongan kode tersebut ditaruh pada file HTML sesu
 16)  Melakukan deployment dengan melakukan push kode ke repository github. Halaman aplikasi dapat diakses melalui link yang telah diset di heroku dan secret repository.
 
 <br>
+<br>
 
 
 # Tugas 5 PBP
@@ -342,12 +343,23 @@ Lanjutan dari Tugas 4 dengan menambahkan styling pada web app yang telah dibuat 
 
 ## Perbedaan Inline, Internal, dan External CSS
 
-...
+Inline | Internal | External
+--- | --- | ---
+Diimplementasikan pada baris tag HTML | Diaplikasikan pada heading section HTML | Diimplementasikan dengan membuat file CSS terpisah dan di-link dengan file HTML yang didesain
+Style berlaku hanya pada tag yang diberi styling CSS | Style berlaku pada satu file HTML | Style dapat berlaku pada banyak file HTML, tergantung seberapa banyak file HTML yang me-link
+Cara menggunakannya dengan atribut style="" di dalam tag HTML | Cara menggunakannya dengan melakukan styling dengan selector dan ditaruh di dalam tag <style></style> di heading HTML | Menggunakan selector di dalam file CSS terpisah
 <br>
 
 ## Tag-Tag HTML5
 
-...
+1) ```<html>``` digunakan untuk merepresentasikan root dari file HTML, dapat diisikan atribut language (lang) untuk bahasa yang digunakan
+2) ```<head>``` digunakan sebagai container metadata, diletakkan di dalam tag <html> dan sebelum tag <body>
+3) ```<body>``` digunakan untuk mendefinisikan body halaman, sampir seluruh elemen yang akan ditampilkan di halaman ditaruh di dalam tag ini
+4) ```h1-h6``` digunakan sebagai heading text
+5) ```<br>``` digunakan untuk single line break text
+6) ```<button>``` digunakan untuk membuat tombol
+7) ```<p>``` digunakan untuk membuat dan menuliskan teks
+
 <br>
 
 ## Tipe-Tipe CSS Selector
