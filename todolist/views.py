@@ -6,8 +6,9 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 
 from django.shortcuts import render, redirect
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect,HttpResponse
 from django.urls import reverse
+from django.core import serializers
 
 from todolist.forms import TaskForm
 from todolist.models import Task
@@ -15,7 +16,7 @@ from todolist.models import Task
 @login_required(login_url='/todolist/login/')
 def show_todolist(request):
     username = request.user.get_username()
-    # Mengambil seluruh task sesuai user ter-login saat ini
+    # Mengambil seluruh task sesuai user yang sedang login saat ini
     tasks = Task.objects.filter(user=request.user)
     context = {
         'username': username,
@@ -95,3 +96,21 @@ def logout_user(request):
     # Melakukan logout dan redirect ke halaman login
     logout(request)
     return redirect('todolist:login')
+
+@login_required(login_url='/todolist/login/')
+def tasks_json(request):
+    # Mengambil seluruh task sesuai user yang sedang login saat ini
+    data = Task.objects.filter(user=request.user)
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+
+def add_task(request):
+    # Jika method request adalah POST
+    if request.method == "POST":
+        # Mengambil data form dari request
+        judul = request.POST.get('title')
+        deskripsi = request.POST.get('description')
+        # Membuat instansiasi task baru
+        task = Task(user=request.user, title=judul, description=deskripsi, date=datetime.datetime.now())
+        # Menyimpan ke database
+        task.save()
+    return HttpResponse('')

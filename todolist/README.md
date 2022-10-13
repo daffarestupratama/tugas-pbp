@@ -20,7 +20,7 @@ Token yang di-*generate* oleh ```{% csrf_token %}``` berguna untuk keamanan dan 
 
 Membuat kolom masukan pada halaman web tetap bisa dilakukan tanpa generator Form. Ada beberapa cara yang dapat dilakukan untuk mengimplementasikan fitur tersebut, salah satunya menggunakan tag form bawaan HTML. Contoh implementasi dua kolom submisi teks beserta tombol submit bisa berupa kode seperti berikut ini :
 
-```sh
+```html
 <form action="<nama action>" method="<nama method>">
     <label for="kolom1">Isian pertama :</label><br>
     <input type="text" id="kolom1" name="kolom1"><br>
@@ -67,7 +67,7 @@ Untuk mengimplementasikannya, potongan kode tersebut ditaruh pada file HTML sesu
     python manage.py startapp todolist
     ```
 3) Menambahkan path untuk akses URL ```http://localhost:8000/todolist``` dengan cara memasukkan path baru di dalam urlpatterns di dalam file ```urls.py``` di folder proyek django agar melakukan routing ke todolist.urls
-    ```sh
+    ```py
     urlpatterns = [
         ...
         path('todolist/', include('todolist.urls')),
@@ -75,15 +75,15 @@ Untuk mengimplementasikannya, potongan kode tersebut ditaruh pada file HTML sesu
     ```
     
 4) Membuat model Task dengan membuat kelas baru di dalam file ```models.py``` di folder todolist yang merupakan subkelas dari ```models.Model``` dan isikan seluruh atribut sesuai dengan yang diinginkan soal
-    ```sh
+    ```py
     from django.db import models
 
-   class Task(models.Model):
-       date = models.DateField()
-       title = models.CharField(max_length=200)
-       description = models.TextField()
-       # on_delete CASCADE agar ketika user terhapus maka task ikut terhapus
-       user = models.ForeignKey('auth.User', on_delete=models.CASCADE)
+    class Task(models.Model):
+        date = models.DateField()
+        title = models.CharField(max_length=200)
+        description = models.TextField()
+        # on_delete CASCADE agar ketika user terhapus maka task ikut terhapus
+        user = models.ForeignKey('auth.User', on_delete=models.CASCADE)
     ```
     
 5) Migrasikan model agar dapat terbaca aplikasi dengan command 
@@ -96,7 +96,7 @@ Untuk mengimplementasikannya, potongan kode tersebut ditaruh pada file HTML sesu
 ### **REGISTRASI**
 
 6) Mengimplementasikan halaman registrasi akun dengan memasukkan fungsi yang akan meng-*handle* registrasi di dalam file views.py
-    ```sh
+    ```py
     def register(request):
         # Membuat form registrasi user
         form = UserCreationForm()
@@ -117,7 +117,7 @@ Untuk mengimplementasikannya, potongan kode tersebut ditaruh pada file HTML sesu
     
 7) Membuat file HTML (misalkan register.html) yang akan menampilkan halaman web registrasi akun di dalam folder template dan memasukkan tag form yang akan ditampilkan. Bisa juga ditambahkan messages apabila terdapat message akun telah berhasil dibuat.
 
-    ```sh
+    ```html
     <h1>Formulir Registrasi</h1>  
 
         <form method="POST" >  
@@ -145,7 +145,7 @@ Untuk mengimplementasikannya, potongan kode tersebut ditaruh pada file HTML sesu
 ### **Login**
 
 8) Membuat fungsi di dalam file views.py yang akan meng-*handle* halaman login dan mengautentikasi user ketika pengguna mencoba login
-    ```sh
+    ```py
     def login_user(request):
        # Jika request method POST (tombol input login ditekan)
        if request.method == 'POST':
@@ -173,7 +173,7 @@ Untuk mengimplementasikannya, potongan kode tersebut ditaruh pada file HTML sesu
 
 9) Membuat file html (misalkan login.html) untuk menampilkan halaman login kepada pengguna dengan memasukkan form username dan password agar dapat diambil datanya untuk autentikasi user. Sebuah tombol redirect juga dibuat agar pengguna bisa pergi ke halaman registrasi akun.
 
-    ```sh
+    ```html
         <h1>Login</h1>
 
     <form method="POST" action="">
@@ -212,7 +212,7 @@ Untuk mengimplementasikannya, potongan kode tersebut ditaruh pada file HTML sesu
 ### **Halaman Utama Todolist**
 
 10) Membuat fungsi di dalam views.py yang akan meng-*handle* tampilan halaman utama yang nantinya berfungsi untuk menampilkan seluruh task yang dibuat oleh user dan tombol untuk menambahkan task.
-    ```sh
+    ```py
     def show_todolist(request):
         username = request.user.get_username()
         # Mengambil seluruh task sesuai user ter-login saat ini
@@ -226,7 +226,7 @@ Untuk mengimplementasikannya, potongan kode tersebut ditaruh pada file HTML sesu
     ```
 
 11) Membuat file html (misalkan todolist.html) di dalam folder template yang ditampilkan sebagai halaman utama todolist kepada pengguna. Implementasikan juga tampilan nama username dan iterasikan semua task yang ada di dalam kueri tasks sesuai dengan context yang di-*pass* oleh fungsi. Dua tombol juga dibuat untuk membuat task dan logout.
-    ```sh
+    ```html
     <h1>Todo List - PBP Tugas 4</h1>
 
     <br>
@@ -263,7 +263,7 @@ Untuk mengimplementasikannya, potongan kode tersebut ditaruh pada file HTML sesu
 
 12) Membuat fungsi di dalam views.py yang akan meng-*handle* tampilan halaman pembuatan task yang berfungsi untuk menampilkan form inputan oleh pengguna dan tombol untuk mensubmit.
 
-    ```sh
+    ```py
     def create_task(request):
         # Jika method request adalah POST
         if request.method == 'POST':
@@ -292,7 +292,7 @@ Untuk mengimplementasikannya, potongan kode tersebut ditaruh pada file HTML sesu
     ```
 
 13) Membuat file html (misalkan create_task.html) di dalam folder template yang ditampilkan sebagai halaman pembuatan tugas kepada pengguna.
-    ```sh
+    ```py
     <h1>Create Task</h1>
 
     <form method="POST">
@@ -312,13 +312,13 @@ Untuk mengimplementasikannya, potongan kode tersebut ditaruh pada file HTML sesu
 ### **Akhiran**
 
 14) Membatasi akses halaman agar hanya dapat diakses oleh pengguna terautentikasi yang telah login. Apabila ternyata belum login, maka pengguna akan dialihkan ke halaman login. Fitur ini dapat diimplementasikan dengan menaruh dekorator berikut ini pada fungsi-fungsi yang dibatasi aksesnya :
-    ```sh
+    ```py
     @login_required(login_url='/todolist/login/')
     ```
 
 
 15) Menambahkan path ke dalam urlpatterns di dalam file urls.py di folder todolist dengan url dan nama fungsi yang bersesuaian
-    ```sh
+    ```py
     app_name = 'todolist'
 
     urlpatterns = [
@@ -364,9 +364,41 @@ Cara menggunakannya dengan atribut style="" di dalam tag HTML | Cara menggunakan
 
 ## Tipe-Tipe CSS Selector
 
-...
+1) Element selector : menyeleksi berdasarkan tipe element HTML
+    ```css
+    p {
+        text-align: center;
+        color: red;
+    }
+    ```
+2) ID selector : menyeleksi berdasarkan ID, dituliskan dengan diawali tanda pagar. Contoh berikut menampilkan selector untuk memilih elemen dengan ```id="para1"```
+    ```css
+    #para1 {
+        text-align: center;
+        color: red;
+    }
+    ```
+3) Class selector : menyeleksi berdasarkan atribut *class*, dituliskan dengan diawali tanda titik. Contoh berikut menampilkan selector untuk memilih elemen dengan ```class="center"```
+    ```css
+    .center {
+        text-align: center;
+        color: red;
+    }
+    ```
+4) Universal selector : memilih secara universal atau keseluruhan elemen dengan menuliskan tanda bintang
+    ```css
+    * {
+    text-align: center;
+        color: blue;
+    }
+    ```
 <br>
 
 ## Implementasi Tugas
 
-...
+1) Meng-embed file css dari Bootstrap dengan memasukkan linknya di head HTML
+    ```css
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    ```
+2) Menggunakan desain-desain yang tersedia pada Bootstrap dengan mengubah atribut kelas pada elemen-elemen HTML
+3) Untuk mengetahui sintaks-sintaksnya dapat merujuk lagi pada dokumentasi yang tersedia pada website Bootstrap
