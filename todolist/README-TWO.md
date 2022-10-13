@@ -1,7 +1,4 @@
- Jelaskan penerapan asynchronous programming pada AJAX.
- Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas.
-
- # Tugas 6 PBP
+# Tugas 6 PBP
 
 Daffa Ilham Restupratama <br>
 NPM 2106751013 <br>
