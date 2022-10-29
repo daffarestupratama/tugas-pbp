@@ -6,7 +6,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 
 from django.shortcuts import render, redirect
-from django.http import HttpResponseRedirect,HttpResponse
+from django.http import HttpResponseRedirect,HttpResponse, JsonResponse
 from django.urls import reverse
 from django.core import serializers
 
@@ -113,4 +113,5 @@ def add_task(request):
         task = Task(user=request.user, title=judul, description=deskripsi, date=datetime.datetime.now())
         # Menyimpan ke database
         task.save()
-    return HttpResponse('')
+        return JsonResponse({'title':task.title, 'description':task.description})
+    return JsonResponse({'error':'Method not allowed'}, status=405)
