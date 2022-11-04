@@ -38,18 +38,19 @@
                 csrfmiddlewaretoken: CSRFtoken
                 }, function(){
                 $('.modal').hide();
-                $('.backdrop').hide();
-                $.get('/todolist/json/', function(tasks, status){
+                $('.modal-backdrop').hide();
+                $('.modal').css('overflow-y', 'auto');
+                $.get('/todolist/json/', function(tasks){
                     let content = '';
                     for (let i=0; i<tasks.length; i++){
                     content += `
                     <div class="card text-white bg-dark mb-3">
                         <div class="card-header" style="padding: 15px 10px 10px 10px">
-                            <h5 class="card-title">${tasks[i].title}</h5>
+                            <h5 class="card-title">${tasks[i].fields["title"]}</h5>
                         </div>
                         <div class="card-body">
-                            <p class="card-text">${tasks[i].description}</p>
-                            <p class="card-text"><small class="text-muted">${tasks[i].date}</small></p>
+                            <p class="card-text">${tasks[i].fields.description}</p>
+                            <p class="card-text"><small class="text-muted">${tasks[i].fields["date"]}</small></p>
                         </div>
                     </div>
                     `;
@@ -80,7 +81,7 @@
         </nav>
 
         <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="overflow-y: auto;">
             <div class="modal-dialog">
                 <div class="modal-content">
 
@@ -102,7 +103,7 @@
                             </div>
 
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary" id="add-task">Save</button>
+                                <button type="button" class="btn btn-primary" id="add-task">Save</button>
                             </div>
                         </form>
                     </div>
